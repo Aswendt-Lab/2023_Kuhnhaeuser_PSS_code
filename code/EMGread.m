@@ -34,7 +34,7 @@ inputEMG.filter = 1; %set 1 if data should be filtered with notch filter 50 Hz
 
 %% Filtering with Stimulus
            Path = inputEMG.in_path_re;
-           load(Path)
+           load(Path);
            Data = double(b1);
             %%% Identification of Stimulus and Data Term
             % Works if time is included in array and stimulus has only a few disrete
