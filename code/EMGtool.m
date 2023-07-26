@@ -17,7 +17,7 @@ clc
 %% User Input 1
 inputEMG.foot = ["RF", "LF"];
 inputEMG.days = ["Baseline", "P3", "P14", "P28", "P42","P56"]; %
-inputEMG.Groupe = [""]; % If you have a group structure in the naming of the .mat files you can consider it here, else it needs to be empty: ""
+%inputEMG.Groupe = [""]; % If you have a group structure in the naming of the .mat files you can consider it here, else it needs to be empty: ""
 inputEMG.Hz = [0.1,0.5,1,2,5]; % set the measuring frequencies: it is important to set them from low to high
 inputEMG.in_path = "Y:\TVA_Pyramidenbahnen\T4\EMG";
 inputEMG.out_path = "Y:\TVA_Pyramidenbahnen\T4\EMG";
@@ -38,17 +38,17 @@ disp("Starting to process the data ...");
 O = 1;
 foot = inputEMG.foot;
 days = inputEMG.days;
-inputGroupe = inputEMG.Groupe;
+%inputGroupe = inputEMG.Groupe;
 Hz = inputEMG.Hz;
 % Creating the data path
-for g_index = 1:length(inputGroupe)
+%for g_index = 1:length(inputGroupe)
     for d_index = 1:length(days)
 
         for limb_index = 1:length(foot)
             tic
             for freq_channel = 1:length(Hz)
                 cur_path = fullfile(inputEMG.in_path,days(d_index),"*");
-                cur_path = strcat(cur_path,inputGroupe(g_index),foot(limb_index),"*",num2str(Hz(freq_channel)),'Hz.mat');
+                cur_path = strcat(cur_path,foot(limb_index),"*-",num2str(Hz(freq_channel)),'Hz.mat');
                 mat = dir(cur_path);
                 for animal_number = 1:length(mat)
 
@@ -76,10 +76,10 @@ for g_index = 1:length(inputGroupe)
                         end
 
                         SortM_5 = M_diff_temp(INDEX);
-                        M_diff(animal_number,freq_channel,:,limb_index,d_index,g_index) = SortM_5;
+                        M_diff(animal_number,freq_channel,:,limb_index,d_index) = SortM_5;
 
                         SortH_5 = H_diff_temp(INDEX);
-                        H_diff(animal_number,freq_channel,:,limb_index,d_index,g_index) = SortH_5;
+                        H_diff(animal_number,freq_channel,:,limb_index,d_index) = SortH_5;
 
                     end
                 end
@@ -88,7 +88,7 @@ for g_index = 1:length(inputGroupe)
             toc
         end
     end
-end
+%end
 
 %% Saving Path Cunstruction
 path_main = [ inputEMG.out_path  + '\_Evaluation\Results_Excel'];
@@ -107,51 +107,51 @@ HM_Ratio = H_diff./M_diff;
 O = 1;
 
 S = size(M_diff);
-for g_index = 1:length(inputGroupe)
+%for g_index = 1:length(inputGroupe)
     for d_index = 1:length(days)
         for limb_index = 1:length(foot)
 
             cur_path = fullfile(inputEMG.in_path,days(d_index),"*");
-            cur_path = strcat(cur_path,inputGroupe(g_index),foot(limb_index),"*",num2str(Hz(freq_channel)),'Hz.mat');
+            cur_path = strcat(cur_path,foot(limb_index),"*-",num2str(Hz(freq_channel)),'Hz.mat');
             mat = dir(cur_path);
             for animal_number = 1:length(mat)
                 for reps = 1:S(3)
                     Number{O} = reps;
-                    Mmax_f0d1Hz{O} =  M_diff(animal_number,1,reps,limb_index,d_index,g_index);
-                    Mmax_f0d5Hz{O} =  M_diff(animal_number,2,reps,limb_index,d_index,g_index);
-                    Mmax_f1Hz{O} =  M_diff(animal_number,3,reps,limb_index,d_index,g_index);
-                    Mmax_f2Hz{O} =  M_diff(animal_number,4,reps,limb_index,d_index,g_index);
-                    Mmax_f5Hz{O} =  M_diff(animal_number,5,reps,limb_index,d_index,g_index);
+                    Mmax_f0d1Hz{O} =  M_diff(animal_number,1,reps,limb_index,d_index);
+                    Mmax_f0d5Hz{O} =  M_diff(animal_number,2,reps,limb_index,d_index);
+                    Mmax_f1Hz{O} =  M_diff(animal_number,3,reps,limb_index,d_index);
+                    Mmax_f2Hz{O} =  M_diff(animal_number,4,reps,limb_index,d_index);
+                    Mmax_f5Hz{O} =  M_diff(animal_number,5,reps,limb_index,d_index);
 
-                    Hmax_f0d1Hz{O} =  H_diff(animal_number,1,reps,limb_index,d_index,g_index);
-                    Hmax_f0d5Hz{O} =  H_diff(animal_number,2,reps,limb_index,d_index,g_index);
-                    Hmax_f1Hz{O} =  H_diff(animal_number,3,reps,limb_index,d_index,g_index);
-                    Hmax_f2Hz{O} =  H_diff(animal_number,4,reps,limb_index,d_index,g_index);
-                    Hmax_f5Hz{O} =  H_diff(animal_number,5,reps,limb_index,d_index,g_index);
+                    Hmax_f0d1Hz{O} =  H_diff(animal_number,1,reps,limb_index,d_index);
+                    Hmax_f0d5Hz{O} =  H_diff(animal_number,2,reps,limb_index,d_index);
+                    Hmax_f1Hz{O} =  H_diff(animal_number,3,reps,limb_index,d_index);
+                    Hmax_f2Hz{O} =  H_diff(animal_number,4,reps,limb_index,d_index);
+                    Hmax_f5Hz{O} =  H_diff(animal_number,5,reps,limb_index,d_index);
 
-                    HM_Ratio_f0d1Hz{O} =  HM_Ratio(animal_number,1,reps,limb_index,d_index,g_index);
-                    HM_Ratio_f0d5Hz{O} =  HM_Ratio(animal_number,2,reps,limb_index,d_index,g_index);
-                    HM_Ratio_f1Hz{O} =  HM_Ratio(animal_number,3,reps,limb_index,d_index,g_index);
-                    HM_Ratio_f2Hz{O} =  HM_Ratio(animal_number,4,reps,limb_index,d_index,g_index);
-                    HM_Ratio_f5Hz{O} =  HM_Ratio(animal_number,5,reps,limb_index,d_index,g_index);
+                    HM_Ratio_f0d1Hz{O} =  HM_Ratio(animal_number,1,reps,limb_index,d_index);
+                    HM_Ratio_f0d5Hz{O} =  HM_Ratio(animal_number,2,reps,limb_index,d_index);
+                    HM_Ratio_f1Hz{O} =  HM_Ratio(animal_number,3,reps,limb_index,d_index);
+                    HM_Ratio_f2Hz{O} =  HM_Ratio(animal_number,4,reps,limb_index,d_index);
+                    HM_Ratio_f5Hz{O} =  HM_Ratio(animal_number,5,reps,limb_index,d_index);
 
                     O = O+1;
                 end
             end
         end
     end
-end
+%end
 
 
 
 O = 1;
-for g_index = 1:length(inputGroupe)
+%for g_index = 1:length(inputGroupe)
     for d_index = 1:length(days)
         for limb_index = 1:length(foot)
 
 
             cur_path = fullfile(inputEMG.in_path,days(d_index),"*");
-            cur_path = strcat(cur_path,inputGroupe(g_index),foot(limb_index),"*",num2str(Hz(freq_channel)),'Hz.mat');
+            cur_path = strcat(cur_path,foot(limb_index),"*-",num2str(Hz(freq_channel)),'Hz.mat');
             mat = dir(cur_path);
 
             for animal_number = 1:length(mat)
@@ -159,20 +159,20 @@ for g_index = 1:length(inputGroupe)
                     if isempty(mat)
                         Names{O} = "Empty Data";
                     else
-                        [pp,ff,ee]=fileparts(mat(animal_number).name);
-                        fullfilename=fullfile(pp,ff);
+                        splits=strsplit(mat(animal_number).name,"-");
+                        fullfilename=strjoin(splits(1:end-1),"-");
                         Name_temp = fullfilename;
                         Names{O} = [Name_temp];
                         Limb{O} = foot(limb_index);
                         TimePoint{O} = days(d_index);
-                        Group{O} = inputGroupe(g_index);
+                        Group{O} = "NoGroup";
                     end
                     O = O+1;
                 end
             end
         end
     end
-end
+%end
 
 
 %% Creating Excelsheets
