@@ -16,11 +16,11 @@ close all force
 clc
 %% User Input 1
 inputEMG.foot = ["RF", "LF"];
-inputEMG.days = ["Baseline", "P3", "P14", "P28", "P42","P56"]; %
+inputEMG.days = ["Baseline","P28", "P41"]; %
 %inputEMG.Groupe = [""]; % If you have a group structure in the naming of the .mat files you can consider it here, else it needs to be empty: ""
 inputEMG.Hz = [0.1,0.5,1,2,5]; % set the measuring frequencies: it is important to set them from low to high
-inputEMG.in_path = "Y:\TVA_Pyramidenbahnen\T4\EMG";
-inputEMG.out_path = "Y:\TVA_Pyramidenbahnen\T4\EMG";
+inputEMG.in_path = "Y:\TVA_Pyramidenbahnen\V3\EMG";
+inputEMG.out_path = "Y:\TVA_Pyramidenbahnen\V3\EMG";
 HRange = [145 200]; % Set the time range in which the program should search for the Hwave! example: [550 800] (microseconds)
 MRange = [40 80]; % Set the time range in which the program should search for the Hwave! example: [550 800] (microseconds)
 Key = 1; %if key is 1 then the M wave is used as reference, if Key is 0 then the H wave is used as reference
